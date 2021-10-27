@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payday 2 Build Randomizer</title>
+    <link rel="shortcut icon" href="favicon.webp" type="image/x-icon">
+    <script type="text/javascript" src="data.js"></script>
+    <style>
+        body {
+            text-align: center;
+            font-size: 1.2em;
+            background-color: black;
+            color: white;
+        }
+        p, button {
+            margin: 0 0 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <img src="favicon.webp" alt="">
+    <p>Payday 2 Build Randomizer</p>
+    <p>------------------</p>
+    <button onclick="BuildGenerator()">Random Build</button>
+    <div id="build"></div>
+    <p>------------------</p>
+    <button onclick="MapChooser()">Random Map</button>
+    <div id="map"></div>
+    <script>
+        const BuildGenerator = () => {
+            document.getElementById("build").innerHTML = "";
+            let keys = Object.keys(data.equipements);
+            keys.map( (el, i) => {
+                if (el === "weapons") {
+                    let weaponsKeys = Object.keys(data.equipements[el]);
+                    weaponsKeys.map( (wp, i) => {
+                        document.getElementById("build").innerHTML += `<p>${data.equipements[el][wp][Math.floor(Math.random() * data.equipements[el][wp].length)]}</p>`;
+                    });
+                }
+                else if (el != "contractors")
+                    document.getElementById("build").innerHTML += `<p>${data.equipements[el][Math.floor(Math.random() * data.equipements[el].length)]}</p>`;
+            });
+        };
+        const MapChooser = () => {
+            document.getElementById("map").innerHTML = "";
+            let keys = Object.keys(data.contractors);
+            keys.map( (el, i) => {
+                let randomContractor = Math.floor(Math.random() * data.contractors.length);
+                let randomMap = Math.floor(Math.random() * data.contractors[randomContractor].maps.length);
+                document.getElementById("map").innerHTML = `<p style="text-decoration: underline">${data.contractors[randomContractor].name} : ${data.contractors[randomContractor].maps[randomMap].name}</p><img src="${data.contractors[randomContractor].maps[randomMap].url}">`;
+            });
+        };
+        //document.getElementById("build").onload = BuildGenerator();
+    </script>
+</body>
+</html>
